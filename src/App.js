@@ -1,25 +1,62 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
 
-function App() {
+import DogImage from './components/DogImage';
+import "./App.css"
+
+export default function DogImageGallery() {
+
+    const [showResults, setShowResults] = useState(false);
+
+  const handleSearchResults = (resultsVisible) => {
+    setShowResults(resultsVisible);
+  };
+ 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='container'>   
+    
+    
+
+      <DogImage onSearchResults={handleSearchResults} />
+      
+      {!showResults && <FirstPage />}
+      
     </div>
   );
 }
 
-export default App;
+
+
+
+
+
+
+ function FirstPage() {
+  const [imageURL, setImageURL] = useState ([])
+
+  useEffect(()=>{
+    
+    fetch ("https://dog.ceo/api/breed/hound/images/random/12")
+    .then((data)=> data.json())
+    .then ((poster)=>setImageURL(poster.message))
+  },[] )
+  return (
+    
+
+  <div className='master-container'>
+      
+      <div className="image-gallery">        
+       { 
+       imageURL.map ((url, )=>( <img className='Dog-poster' key= "index " src= {url}  alt='Hound Dog'/>)
+       )}
+
+     </div>  
+     </div>
+      
+
+  )
+}
+
+
+
+
+
